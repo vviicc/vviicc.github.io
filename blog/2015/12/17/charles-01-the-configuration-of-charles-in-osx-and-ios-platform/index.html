@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Charles-01-the Configuration of Charles in OSX and iOS Platform - Vic's Tech Blog</title>
+  <meta name="author" content="Vic">
+
+  
+  <meta name="description" content="OSX/iOS 环境下的Charles配置篇 Mac OSX 代理设置 首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到Proxy->Proxy Settings设置，设置后其实就是自动设置了网络代理。 iOS模拟器 iOS模拟器也是使用Mac OSX的系统代理设置 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.vviicc.com/blog/2015/12/17/charles-01-the-configuration-of-charles-in-osx-and-ios-platform/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Vic's Tech Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Vic's Tech Blog</a></h1>
+  
+    <h2>Tech About iOS Develepment</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.google.com/s" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="www.vviicc.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Charles-01-the Configuration of Charles in OSX and iOS Platform</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-17T14:24:06+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>OSX/iOS 环境下的Charles配置篇</h3>
+
+<ol>
+<li><p><strong>Mac OSX 代理设置</strong></p>
+
+<p>首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到<em>Proxy->Proxy Settings</em>设置，设置后其实就是自动设置了网络代理。</p>
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&amp;e=1450332386&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:XYXP1J9LtsN7jNL68dK_dqUnxeA" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
+<li><p><strong>iOS模拟器</strong></p>
+
+<p>iOS模拟器也是使用Mac OSX的系统代理设置</p>
+
+<blockquote><p><em>XCode6</em>以后要先运行Charles并设置好Mac OSX系统代理再运行iOS模拟器。</p></blockquote></li>
+<li><p><strong>iOS设备</strong></p>
+
+<p>选择和Mac同一个WIFI网络，选择HTTP代理为<em>手动</em>。</p>
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/FullSizeRender.jpg?attname=&amp;e=1450344950&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:gzIUZ2ybFOQE-KH_Vh2whrsrSuU" width="500" title="HTTP代理" alt="HTTP代理" /></p>
+
+<ul>
+<li><p>服务器：设为Mac的IP地址，可以通过Charles的<em>Help->Local IP Address</em>查看， 或者通过Mac的<em>设置->网络->TCP/IP</em>查看IP地址。</p>
+
+<pre><code>  PS:后者会更准确些，前者遇到过错误的情况。
+</code></pre></li>
+<li><p>端口号：设置为<em>Proxy Setting</em>中相同的端口号即可（通常为8888）。</p></li>
+</ul>
+
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-2.png?attname=&amp;e=1450335575&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:2rQsCMoBH6HtI1lThQuQRA4_5FM" width="500" alt="端口号" /></p>
+
+<ul>
+<li>鉴定：选择不鉴定</li>
+</ul>
+
+
+<p>首次连接时Charles会弹出是否信任这个连接，选择信任，这个IP地址就会被添加到<em>Access Control list</em>中，你也可以到<em>Proxy->Access Control Setting</em>中修改。</p>
+
+<pre><code>PS：如果没有弹出那个提示框，一般设置不正确，重现检查设置或更换网络（有的网络比如需要用户密码登录的可能不行）
+PS：在你不用Charles的时候要记得关闭HTTP代理，否则会上不了网。
+</code></pre></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Vic</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-17T14:24:06+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ioskai-fa/'>ios开发</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/17/charles-02-the-use-of-charles-in-osx-and-ios-platform/" title="Next Post: Charles-01-the use of Charles in OSX and iOS platform">Charles-01-the use of Charles in OSX and iOS platform &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    Included file 'asides/category_list.html' not found in _includes directory<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/charles-02-the-use-of-charles-in-osx-and-ios-platform/">Charles-01-the Use of Charles in OSX and iOS Platform</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/charles-01-the-configuration-of-charles-in-osx-and-ios-platform/">Charles-01-the Configuration of Charles in OSX and iOS Platform</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Vic -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
