@@ -1,12 +1,10 @@
 ---
 layout: post
-title: "Charles-01-the use of Charles in OSX and iOS platform"
+title: "Charles-02-OSX/iOS 环境下的charles使用篇"
 date: 2015-12-17 14:32:43 +0800
 comments: true
 categories: iOS开发
 ---
-### OSX/iOS 环境下的charles使用篇
-
 1. **查看网络包**
 
 	 Charles提供了两种形式查看网络包：*Structure*和*Sequence*视图。

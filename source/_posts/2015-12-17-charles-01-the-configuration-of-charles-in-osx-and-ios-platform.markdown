@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "Charles-01-the configuration of Charles in OSX and iOS platform"
+title: "Charles-01-OSX/iOS 环境下的Charles配置篇"
 date: 2015-12-17 14:24:06 +0800
 comments: true
 categories: iOS开发
 ---
-### OSX/iOS 环境下的Charles配置篇
 1.	**Mac OSX 代理设置**
 
 	首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到*Proxy->Proxy Settings*设置，设置后其实就是自动设置了网络代理。
