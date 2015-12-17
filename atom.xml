@@ -4,7 +4,7 @@
   <title><![CDATA[Vic's Tech Blog]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-17T16:10:11+08:00</updated>
+  <updated>2015-12-17T16:20:34+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -151,7 +151,7 @@
 
 <p>首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到<em>Proxy->Proxy Settings</em>设置，设置后其实就是自动设置了网络代理。</p>
 
-<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&amp;e=1450332386&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:XYXP1J9LtsN7jNL68dK_dqUnxeA" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:dDEb12le2AkXoOhbRGtObCbFns8" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
 <li><p><strong>iOS模拟器</strong></p>
 
 <p>iOS模拟器也是使用Mac OSX的系统代理设置</p>
@@ -172,7 +172,7 @@
 </ul>
 
 
-<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-2.png?attname=&amp;e=1450335575&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:2rQsCMoBH6HtI1lThQuQRA4_5FM" width="500" alt="端口号" /></p>
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-2.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:oL_BdMEYRaX7SKHiaf6qWU1WAl8" width="500" title="端口号" alt="端口号" /></p>
 
 <ul>
 <li>鉴定：选择不鉴定</li>
