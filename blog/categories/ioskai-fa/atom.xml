@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发 | Vic's Tech Blog]]></title>
   <link href="http://www.vviicc.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-17T15:44:40+08:00</updated>
+  <updated>2015-12-17T15:52:47+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -14,13 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Charles-01-the Use of Charles in OSX and iOS Platform]]></title>
+    <title type="html"><![CDATA[Charles-02-OSX/iOS 环境下的charles使用篇]]></title>
     <link href="http://www.vviicc.com/blog/2015/12/17/charles-02-the-use-of-charles-in-osx-and-ios-platform/"/>
     <updated>2015-12-17T14:32:43+08:00</updated>
     <id>http://www.vviicc.com/blog/2015/12/17/charles-02-the-use-of-charles-in-osx-and-ios-platform</id>
-    <content type="html"><![CDATA[<h3>OSX/iOS 环境下的charles使用篇</h3>
-
-<ol>
+    <content type="html"><![CDATA[<ol>
 <li><p><strong>查看网络包</strong></p>
 
 <p>  Charles提供了两种形式查看网络包：<em>Structure</em>和<em>Sequence</em>视图。</p>
@@ -144,13 +142,11 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Charles-01-the Configuration of Charles in OSX and iOS Platform]]></title>
+    <title type="html"><![CDATA[Charles-01-OSX/iOS 环境下的Charles配置篇]]></title>
     <link href="http://www.vviicc.com/blog/2015/12/17/charles-01-the-configuration-of-charles-in-osx-and-ios-platform/"/>
     <updated>2015-12-17T14:24:06+08:00</updated>
     <id>http://www.vviicc.com/blog/2015/12/17/charles-01-the-configuration-of-charles-in-osx-and-ios-platform</id>
-    <content type="html"><![CDATA[<h3>OSX/iOS 环境下的Charles配置篇</h3>
-
-<ol>
+    <content type="html"><![CDATA[<ol>
 <li><p><strong>Mac OSX 代理设置</strong></p>
 
 <p>首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到<em>Proxy->Proxy Settings</em>设置，设置后其实就是自动设置了网络代理。</p>
