@@ -10,6 +10,8 @@ categories: iOS开发
 	首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到*Proxy->Proxy Settings*设置，设置后其实就是自动设置了网络代理。
 	
 	![网络代理设置](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&e=1450406990&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:dDEb12le2AkXoOhbRGtObCbFns8 =500x "网络代理设置")
+
+_
 	
 2.	**iOS模拟器**
 
