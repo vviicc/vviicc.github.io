@@ -4,7 +4,7 @@
   <title><![CDATA[Vic's Tech Blog]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-18T22:29:24+08:00</updated>
+  <updated>2015-12-18T22:49:44+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -291,7 +291,7 @@
 
 
 <p>求打赏
-<img src="../images/pay.png" width="100" title="支付宝" alt="支付宝" /></p>
+<img src="http://www.vviicc.com/images/pay.png" width="200" title="支付宝" alt="支付宝" /></p>
 ]]></content>
   </entry>
   
