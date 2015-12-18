@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类：ios开发 | Vic's Tech Blog]]></title>
+  <link href="http://www.vviicc.com/blog/categories/ioskai-fa/atom.xml" rel="self"/>
+  <link href="http://www.vviicc.com/"/>
+  <updated>2015-12-18T14:41:56+08:00</updated>
+  <id>http://www.vviicc.com/</id>
+  <author>
+    <name><![CDATA[Vic]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Charles-02-OSX/iOS 环境下的charles使用篇]]></title>
+    <link href="http://www.vviicc.com/blog/charles-02-the-use-of-charles-in-osx-and-ios-platform/"/>
+    <updated>2015-12-17T14:32:43+08:00</updated>
+    <id>http://www.vviicc.com/blog/charles-02-the-use-of-charles-in-osx-and-ios-platform</id>
+    <content type="html"><![CDATA[<ol>
+<li><p><strong>查看网络包</strong></p>
+
+<p>  Charles提供了两种形式查看网络包：<em>Structure</em>和<em>Sequence</em>视图。</p>
+
+<p> <em>Structure</em>视图是根据<em>host name</em>以树状组织结构展示，便于查看同一主机名的网络包，每次有新的请求，相应主机名目录会变黄。</p>
+
+<p> <em>Sequence</em>视图是以网络请求的时间顺序展示的。</p></li>
+<li><p><strong>过滤网络包</strong></p>
+
+<ul>
+<li><p>在<em>Proxy->Recording Settings</em>有<em>Include</em>和<em>Exclude</em>设置，<em>Include</em>中如果添加了请求，那仅限于这里添加的请求会被记录。如果<em>Include</em>列表为空，那就仅仅过滤掉<em>Exclude</em>列表的请求，每个请求可以指定协议，主机地址，端口，路径，参数等信息，支持通配符。</p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-4.png?attname=&amp;e=1450344744&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:0j-Av_IOGQAgPoH9LxYq8iKaRN8" width="500" title="过滤网络包" alt="过滤网络包" /></p>
+
+<p>  *以下所有请求接口来自于 <a href="http://openweathermap.org/" title="openweathermap"><em>openweathermap</em></a> 提供的开放API</p></li>
+<li><p>也可对记录结果进行过滤，1.Commend + F 查找页面，可以对URL,头部，内容进行过滤，支持通配符。 2.在<em>Sequence</em>视图中在<em>Filter</em>输入关键字过滤。</p></li>
+<li><p>选中某个请求包选择<em>Fouce</em>，这个请求包将与其他请求分开单独显示。</p></li>
+</ul>
+</li>
+<li><p><strong>修改网络包</strong></p>
+
+<p> 修改网络包有两种形式，一种是静态对之前的网络包请求修改再执行，另一种是动态修改正在请求的网络包。</p>
+
+<ul>
+<li><p>静态修改（<em>Edit</em>）</p>
+
+<p>  对要修改的请求记录选择 <em>Edit</em> ,修改请求，然后修改请求数据，点击执行。</p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-5.png?attname=&amp;e=1450344744&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:mWo6Hy2-1pQ0LSpik_SKBCL90gc" width="500" title="Edit" alt="Edit" /></p></li>
+<li><p>动态修改（<em>Breakpoints</em>, <em>Rewrite</em>, <em>Map Loacl</em>, <em>Map Remote</em>）</p>
+
+<ul>
+<li><p>Breakpoints</p>
+
+<p>  添加了Breakpoints的请求发生时，会截取改请求，可以对请求和返回数据进行修改，适合临时性修改请求和返回数据。添加方法是在选中某个请求点击<em>Breakpoints</em>，选择<em>Proxy->Enable Breakpoints</em>打开Breakpoints功能，也可以在<em>Proxy->Breakpoints Settings</em>设置。</p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-8.png?attname=&amp;e=1450358893&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:_u_5Jf_FZhFFAdb6VxPwHxekXk4" title="Breakpoints" alt="Breakpoints" /></p>
+
+<pre><code>  Breakpoints截取网络过程中网络请求并没有暂停，长时间的等待可能导致请求超时。
+</code></pre></li>
+<li><p>Rewrite</p>
+
+<p>  Rewrite是将请求数据或返回结果替换，点击<em>Tools->Rewrite</em>，选中<em>Enable Rewrite</em>，添加<em>Sets</em>，根据需要添加<em>Locations</em>信息，添加了的话<em>Rewrite</em>将只针对<em>Locations</em>列表请求有效，再添加<em>Rules</em>规则，可以对请求和返回数据替换，支持通配符。有一个<em>Degbug in Error Log</em>的选项，作用是如果有匹配到的话会在Log记录里显示出来，Log记录是在<em>Window->Error Log</em>中。</p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-1.png?attname=&amp;e=1450404100&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:qef3o6IMyhpTslqCcKJTAfIPZiQ" width="500" title="Rewrite" alt="Rewrite" /></p></li>
+<li><p>Map Local</p>
+
+<p>  Map Local 是将本地文件作为请求网络的返回数据，这样就可以在部署到远程网络前进行测试。</p></li>
+<li><p>Map Remote</p>
+
+<p>  Map Remote 是将一个请求从某个服务器转成另一个服务器去处理。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>重复请求</strong></p>
+
+<ul>
+<li><p>Repeat(重复一次)</p>
+
+<p>  选中一个请求，选择Repeat，将重复执行一次。</p></li>
+<li><p>Repeat Advanced（负载测试）</p>
+
+<p>  Repeat Advanced可以设置并发数以及重复次数，对于负载测试很有帮助。</p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-6.png?attname=&amp;e=1450357558&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:5nnRmi_6sk9ZWjignqtuedzFEdA" title="Repeat Advanced" alt="Repeat Advanced" /></p>
+
+<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-7.png?attname=&amp;e=1450357558&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:zHfMoMg_8VMWPnqpjBh41Ilu_y0" width="750" title="Repeat Advanced Result" alt="Repeat Advanced Result" /></p></li>
+</ul>
+</li>
+<li><p><strong>模拟网速</strong></p>
+
+<p> Charles还支持模拟不同网速功能，在<em>Proxy->Throttle Settings</em>选中<em>Enable Throttling</em>，根据需要添加<em>Locations</em>，如果选中了<em>Only for selected hosts</em>，并且<em>Locations</em>中有数据，则只有<em>Locations</em>列表中的请求会被限速。<em>Throttle Configuration</em>中对网速进行配置。</p>
+
+<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-2.png?attname=&amp;e=1450405497&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:VYWsm7pY1J9QTh0FTnsbpT-OcSQ" title="Throttle Configuration" alt="Throttle Configuration" /></p>
+
+<blockquote><p>如果仅仅是需要模拟网速，<a href="https://developer.apple.com/downloads/index.action?q=Hardware%20IO%20Tools">Network Link Conditioner</a> 也是个不错的选择。&ndash;> <a href="http://nshipster.com/network-link-conditioner/">相关教程</a></p></blockquote></li>
+<li><p><strong>自动保存</strong></p>
+
+<p> 自动保存 (<em>Auto Save</em>) 能在设定的时间间隔里自动保存Session记录，对监控长时间网络请求很有帮助。到了设定的时间间隔Charles会保存之前的记录在设定的本地目录文件，文件会以请求时间命名，保存后会把之前Charles在内存里的记录清除掉，这样长时间的请求也不会超出内存。设置方法是<em>Tools->Auto Save</em>，选择<em>Enable Auto Save</em>，设定时间间隔、保存路径和保存格式。</p>
+
+<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-4.png?attname=&amp;e=1450406615&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dd9BdxEgogNfGgEMxmb7RBSTML0" title="Auto Save" alt="Auto Save" /></p>
+
+<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-5.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dbx69cJARmZs7b_iMV5ND8LQ-_o" title="Auto Save" alt="Auto Save" /></p></li>
+<li><p><strong>反向代理</strong></p>
+
+<p> 反向代理（<em>Reverse Proxy</em>）可以将本地可用端口替换成远程web服务器端口（一般为80端口）</p></li>
+<li><p><strong>DNS欺骗</strong></p>
+
+<p> DNS欺骗（<em>DNS Spoofing</em>）可以将域名直接替换成想要的IP地址，正常的DNS解析更换需要较长时间才生效，而使用DNS欺骗可以立即更换IP地址，不用等待DNS解析生效就可以进行测试。</p></li>
+<li><p><strong>HTTPS/SSL代理</strong></p>
+
+<ul>
+<li><p>原理：<em>Charles</em>能够支持HTTPS代理的原理是<em>Charles</em>充当了中间人角色，Charles会为web服务器动态生成一个使用自己根证书（<em>Charles CA Certificate</em>）签名的证书，<em>Charles</em>会接收web服务器的证书，而客户端浏览器就接收Charles生成的证书。因此在在使用<em>Charles</em>作为HTTPS代理时客户端在请求HTTPS接口时会弹出安全警告，提示<em>Charles</em>根证书不被信任，所以需要添加<em>Charles</em>根证书为信任证书中，就不会出现类似的警告了。</p></li>
+<li><p>使用：开启SSL代理功能，在<em>Proxy->SSL Proxying Setting</em>选中<em>Enable SSL Proxying</em>，在<em>Locations</em>添加要使用SSL代理的网站，如果需要匹配所有的HTTPS网站则输入 * 号即可，另外还可以上传客户端证书和根证书。</p></li>
+<li><p>SSL证书：为了消除浏览器的安全警告，需要添加<em>Charles</em>根证书到信任的证书列表中。</p>
+
+<p>  OSX环境：选择Charles的<em>Help->SSL Proxying->Install Charles Root Certificate</em> 菜单，<em>Keychain Access</em> 会打开，点击<em>永远信任</em>按钮，输入管理员密码就可以将<em>Charles</em>证书添加到信任列表中，需要关闭后重新打开Safari才能生效。</p>
+
+<p>  iOS设备：首先将iOS设备网络代理设好（参考Charles配置篇），然后用Safari打开 <a href="http://www.charlesproxy.com/getssl"><em>http://www.charlesproxy.com/getssl</em></a> 链接，按照提示下载安装SSL证书。</p>
+
+<blockquote><p>iOS9以上系统要使用Charles作为SSL代理的话要关闭 <em><a href="https://developer.apple.com/library/prerelease/mac/technotes/App-Transport-Security-Technote/index.html">APP Transport Security</a></em> ，关闭方法为在APP的<em>info.plist</em>文件添加以下key。APP发布前记得开启 <em>APP Transport Security</em> 以便获取安全网络通信支持。</p></blockquote>
+
+<pre><code>  &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+  &lt;dict&gt;
+      &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+      &lt;true/&gt;
+  &lt;/dict&gt;
+</code></pre></li>
+</ul>
+</li>
+<li><p><strong>Tips</strong></p>
+
+<ul>
+<li>可以同时运行多个Charles，在Charles安装目录下用终端执行<code>open charles.app -n</code>，为每个Charles设置不同的监听端口，比如一个监听iOS设备的端口，一个监听OSX的端口。</li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Charles-01-OSX/iOS 环境下的Charles配置篇]]></title>
+    <link href="http://www.vviicc.com/blog/charles-01-the-configuration-of-charles-in-osx-and-ios-platform/"/>
+    <updated>2015-12-17T14:24:06+08:00</updated>
+    <id>http://www.vviicc.com/blog/charles-01-the-configuration-of-charles-in-osx-and-ios-platform</id>
+    <content type="html"><![CDATA[<ol>
+<li><p><strong>Mac OSX 代理设置</strong></p>
+
+<p>首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到<em>Proxy->Proxy Settings</em>设置，设置后其实就是自动设置了网络代理。</p>
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:dDEb12le2AkXoOhbRGtObCbFns8" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
+</ol>
+
+
+<p>_</p>
+
+<ol>
+<li><p><strong>iOS模拟器</strong></p>
+
+<p>iOS模拟器也是使用Mac OSX的系统代理设置</p>
+
+<blockquote><p><em>XCode6</em>以后要先运行Charles并设置好Mac OSX系统代理再运行iOS模拟器。</p></blockquote></li>
+<li><p><strong>iOS设备</strong></p>
+
+<p>选择和Mac同一个WIFI网络，选择HTTP代理为<em>手动</em>。</p>
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/FullSizeRender.jpg?attname=&amp;e=1450344950&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:gzIUZ2ybFOQE-KH_Vh2whrsrSuU" width="500" title="HTTP代理" alt="HTTP代理" /></p>
+
+<ul>
+<li><p>服务器：设为Mac的IP地址，可以通过Charles的<em>Help->Local IP Address</em>查看， 或者通过Mac的<em>设置->网络->TCP/IP</em>查看IP地址。</p>
+
+<pre><code>  PS:后者会更准确些，前者遇到过错误的情况。
+</code></pre></li>
+<li><p>端口号：设置为<em>Proxy Setting</em>中相同的端口号即可（通常为8888）。</p></li>
+</ul>
+
+
+<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-2.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:oL_BdMEYRaX7SKHiaf6qWU1WAl8" width="500" title="端口号" alt="端口号" /></p>
+
+<ul>
+<li>鉴定：选择不鉴定</li>
+</ul>
+
+
+<p>首次连接时Charles会弹出是否信任这个连接，选择信任，这个IP地址就会被添加到<em>Access Control list</em>中，你也可以到<em>Proxy->Access Control Setting</em>中修改。</p>
+
+<pre><code>PS：如果没有弹出那个提示框，一般设置不正确，重现检查设置或更换网络（有的网络比如需要用户密码登录的可能不行）
+PS：在你不用Charles的时候要记得关闭HTTP代理，否则会上不了网。
+</code></pre></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
