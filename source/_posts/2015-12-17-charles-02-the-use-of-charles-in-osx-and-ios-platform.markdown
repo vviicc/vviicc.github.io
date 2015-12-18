@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Charles-02-OSX/iOS 环境下的charles使用篇"
+title: "Charles-02-OSX/iOS 环境下的Charles使用篇"
 date: 2015-12-17 14:32:43 +0800
 comments: true
-categories: iOS开发
+categories: 利器
 ---
 1. **查看网络包**
 
