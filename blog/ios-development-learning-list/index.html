@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS系统学习规划 - Vic's Tech Blog</title>
+  <meta name="author" content="Vic">
+
+  
+  <meta name="description" content="iOS SDK UIKit 生命周期
+Frame调用时机
+手势
+UIWebView
+Secheme
+自定义控件实践 开源 SVPullToRefresh
+MBProgressHUD
+ReSideMenu 绘图 CoreGraphics
+CALayer
+QuatzCore 开源 PNChart 动画 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.vviicc.com/blog/ios-development-learning-list/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Vic's Tech Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Vic's Tech Blog</a></h1>
+  
+    <h2>Something About iOS Development</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="订阅RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.google.com/s" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="www.vviicc.com">
+    <input class="search" type="text" name="q" results="0" placeholder="搜索"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">所有文章</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS系统学习规划</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-18T15:22:06+08:00'><span class='date'>2015 年12 月18 日</span> <span class='time'>3:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>iOS SDK</h3>
+
+<ul>
+<li>UIKit
+
+<ul>
+<li>生命周期</li>
+<li>Frame调用时机</li>
+<li>手势</li>
+<li>UIWebView</li>
+<li>Secheme</li>
+<li><strong>自定义控件实践</strong></li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>SVPullToRefresh</em></li>
+<li><em>MBProgressHUD</em></li>
+<li><em>ReSideMenu</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>绘图
+
+<ul>
+<li>CoreGraphics</li>
+<li>CALayer</li>
+<li>QuatzCore</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>PNChart</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>动画
+
+<ul>
+<li>CoreAnimation</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>pop</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>多线程
+
+<ul>
+<li>NSThread</li>
+<li>NSOperationQueue</li>
+<li>GCD</li>
+<li>@synchronized</li>
+<li>pthread_mutex</li>
+<li>_pthread_start</li>
+<li>CFRunLoop</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>数据操作
+
+<ul>
+<li>NSUserDefault/KeyChain</li>
+<li>归档</li>
+<li>写文件</li>
+<li>Core Data</li>
+<li>SQLite</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>TMCache</em></li>
+<li><em>FMDB</em></li>
+<li><em>SDWebImage</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>基础类库
+
+<ul>
+<li>CoreFoundation</li>
+<li>Foundation</li>
+<li><strong>自定义类库实践</strong></li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>网络交互
+
+<ul>
+<li>NSURL</li>
+<li>NSHTTP</li>
+<li>NSSession</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>AFNetworking</em></li>
+<li><em>XMPPFramework</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>音频视频
+
+<ul>
+<li>MediaPlayer</li>
+<li>Core Media</li>
+<li>AVFoundation</li>
+<li>AudioToolbox</li>
+<li>音频流/视频流</li>
+<li><strong>简易音视频流媒体播放器实践</strong></li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>DOUAudioStreamer</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>消息通知
+
+<ul>
+<li>NSNotificationCenter</li>
+<li>NSNotificationQueue</li>
+<li>NSInvocation</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>地图位置
+
+<ul>
+<li>MapKit</li>
+<li>CoreLocation</li>
+<li>CoreMotion</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>支付广告
+
+<ul>
+<li>iAd</li>
+<li>In-App Purchase</li>
+<li>第三方支付（支付宝/微信支付）</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<h3>工具使用</h3>
+
+<ul>
+<li>开发工具
+
+<ul>
+<li>XCode</li>
+<li>SVN</li>
+<li>Git</li>
+</ul>
+</li>
+<li>调试工具
+
+<ul>
+<li>Instruments</li>
+<li>ssh</li>
+<li>GDB/LLDB</li>
+<li>Reveal</li>
+<li>Charles</li>
+</ul>
+</li>
+<li>反编译工具
+
+<ul>
+<li>class dump</li>
+<li>IDA</li>
+<li>Hopper Disassembler</li>
+</ul>
+</li>
+<li>脚本编写
+
+<ul>
+<li>Shell Script</li>
+<li>Python</li>
+<li>Apple Script</li>
+<li><strong>脚本打包，检测私有API使用，冗余资源文件代码检测实践</strong></li>
+</ul>
+</li>
+<li>设计工具
+
+<ul>
+<li>PhotoShop</li>
+<li>Sketch</li>
+</ul>
+</li>
+<li>项目工具
+
+<ul>
+<li>Scrum</li>
+<li>Axure</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Vic</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-18T15:22:06+08:00'><span class='date'>2015 年12 月18 日</span> <span class='time'>3:22 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/qing-dan/'>清单</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/charles-02-the-use-of-charles-in-osx-and-ios-platform/" title="Previous Post: Charles-02-OSX/iOS 环境下的Charles使用篇">&laquo; Charles-02-OSX/iOS 环境下的Charles使用篇</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/li-qi/'>利器 (2)</a></li>
+<li class='category'><a href='/blog/categories/qing-dan/'>清单 (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/ios-development-learning-list/">iOS系统学习规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/charles-02-the-use-of-charles-in-osx-and-ios-platform/">Charles-02-OSX/iOS 环境下的Charles使用篇</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/charles-01-the-configuration-of-charles-in-osx-and-ios-platform/">Charles-01-OSX/iOS 环境下的Charles配置篇</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Vic -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

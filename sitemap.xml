@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.vviicc.com/blog/ios-development-learning-list/</loc>
+    <lastmod>2015-12-18T15:22:06+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.vviicc.com/blog/charles-02-the-use-of-charles-in-osx-and-ios-platform/</loc>
     <lastmod>2015-12-17T14:32:43+08:00</lastmod>
   </url>
@@ -19,5 +23,8 @@
   </url>
   <url>
     <loc>http://www.vviicc.com/blog/categories/li-qi/</loc>
+  </url>
+  <url>
+    <loc>http://www.vviicc.com/blog/categories/qing-dan/</loc>
   </url>
 </urlset>

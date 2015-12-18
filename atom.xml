@@ -4,7 +4,7 @@
   <title><![CDATA[Vic's Tech Blog]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-18T15:17:42+08:00</updated>
+  <updated>2015-12-18T15:30:58+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -12,6 +12,285 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS系统学习规划]]></title>
+    <link href="http://www.vviicc.com/blog/ios-development-learning-list/"/>
+    <updated>2015-12-18T15:22:06+08:00</updated>
+    <id>http://www.vviicc.com/blog/ios-development-learning-list</id>
+    <content type="html"><![CDATA[<h3>iOS SDK</h3>
+
+<ul>
+<li>UIKit
+
+<ul>
+<li>生命周期</li>
+<li>Frame调用时机</li>
+<li>手势</li>
+<li>UIWebView</li>
+<li>Secheme</li>
+<li><strong>自定义控件实践</strong></li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>SVPullToRefresh</em></li>
+<li><em>MBProgressHUD</em></li>
+<li><em>ReSideMenu</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>绘图
+
+<ul>
+<li>CoreGraphics</li>
+<li>CALayer</li>
+<li>QuatzCore</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>PNChart</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>动画
+
+<ul>
+<li>CoreAnimation</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>pop</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>多线程
+
+<ul>
+<li>NSThread</li>
+<li>NSOperationQueue</li>
+<li>GCD</li>
+<li>@synchronized</li>
+<li>pthread_mutex</li>
+<li>_pthread_start</li>
+<li>CFRunLoop</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>数据操作
+
+<ul>
+<li>NSUserDefault/KeyChain</li>
+<li>归档</li>
+<li>写文件</li>
+<li>Core Data</li>
+<li>SQLite</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>TMCache</em></li>
+<li><em>FMDB</em></li>
+<li><em>SDWebImage</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>基础类库
+
+<ul>
+<li>CoreFoundation</li>
+<li>Foundation</li>
+<li><strong>自定义类库实践</strong></li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>网络交互
+
+<ul>
+<li>NSURL</li>
+<li>NSHTTP</li>
+<li>NSSession</li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>AFNetworking</em></li>
+<li><em>XMPPFramework</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>音频视频
+
+<ul>
+<li>MediaPlayer</li>
+<li>Core Media</li>
+<li>AVFoundation</li>
+<li>AudioToolbox</li>
+<li>音频流/视频流</li>
+<li><strong>简易音视频流媒体播放器实践</strong></li>
+</ul>
+</li>
+<li>开源
+
+<ul>
+<li><em>DOUAudioStreamer</em></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>消息通知
+
+<ul>
+<li>NSNotificationCenter</li>
+<li>NSNotificationQueue</li>
+<li>NSInvocation</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>地图位置
+
+<ul>
+<li>MapKit</li>
+<li>CoreLocation</li>
+<li>CoreMotion</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>支付广告
+
+<ul>
+<li>iAd</li>
+<li>In-App Purchase</li>
+<li>第三方支付（支付宝/微信支付）</li>
+</ul>
+</li>
+<li>开源</li>
+</ul>
+
+
+<hr />
+
+<h3>工具使用</h3>
+
+<ul>
+<li>开发工具
+
+<ul>
+<li>XCode</li>
+<li>SVN</li>
+<li>Git</li>
+</ul>
+</li>
+<li>调试工具
+
+<ul>
+<li>Instruments</li>
+<li>ssh</li>
+<li>GDB/LLDB</li>
+<li>Reveal</li>
+<li>Charles</li>
+</ul>
+</li>
+<li>反编译工具
+
+<ul>
+<li>class dump</li>
+<li>IDA</li>
+<li>Hopper Disassembler</li>
+</ul>
+</li>
+<li>脚本编写
+
+<ul>
+<li>Shell Script</li>
+<li>Python</li>
+<li>Apple Script</li>
+<li><strong>脚本打包，检测私有API使用，冗余资源文件代码检测实践</strong></li>
+</ul>
+</li>
+<li>设计工具
+
+<ul>
+<li>PhotoShop</li>
+<li>Sketch</li>
+</ul>
+</li>
+<li>项目工具
+
+<ul>
+<li>Scrum</li>
+<li>Axure</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Charles-02-OSX/iOS 环境下的Charles使用篇]]></title>
