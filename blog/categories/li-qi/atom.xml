@@ -4,7 +4,7 @@
   <title><![CDATA[分类：利器 | Vic's Tech Blog]]></title>
   <link href="http://www.vviicc.com/blog/categories/li-qi/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-18T23:31:57+08:00</updated>
+  <updated>2015-12-19T22:54:34+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -31,7 +31,7 @@
 <ul>
 <li><p>在<em>Proxy->Recording Settings</em>有<em>Include</em>和<em>Exclude</em>设置，<em>Include</em>中如果添加了请求，那仅限于这里添加的请求会被记录。如果<em>Include</em>列表为空，那就仅仅过滤掉<em>Exclude</em>列表的请求，每个请求可以指定协议，主机地址，端口，路径，参数等信息，支持通配符。</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-4.png?attname=&amp;e=1450344744&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:0j-Av_IOGQAgPoH9LxYq8iKaRN8" width="500" title="过滤网络包" alt="过滤网络包" /></p>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151216-4.png" width="500" title="过滤网络包" alt="过滤网络包" /></p>
 
 <p>  *以下所有请求接口来自于 <a href="http://openweathermap.org/" title="openweathermap"><em>openweathermap</em></a> 提供的开放API</p></li>
 <li><p>也可对记录结果进行过滤，1.Commend + F 查找页面，可以对URL,头部，内容进行过滤，支持通配符。 2.在<em>Sequence</em>视图中在<em>Filter</em>输入关键字过滤。</p></li>
@@ -47,7 +47,7 @@
 
 <p>  对要修改的请求记录选择 <em>Edit</em> ,修改请求，然后修改请求数据，点击执行。</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-5.png?attname=&amp;e=1450344744&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:mWo6Hy2-1pQ0LSpik_SKBCL90gc" width="500" title="Edit" alt="Edit" /></p></li>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151216-5.png" width="500" title="Edit" alt="Edit" /></p></li>
 <li><p>动态修改（<em>Breakpoints</em>, <em>Rewrite</em>, <em>Map Loacl</em>, <em>Map Remote</em>）</p>
 
 <ul>
@@ -55,7 +55,7 @@
 
 <p>  添加了Breakpoints的请求发生时，会截取改请求，可以对请求和返回数据进行修改，适合临时性修改请求和返回数据。添加方法是在选中某个请求点击<em>Breakpoints</em>，选择<em>Proxy->Enable Breakpoints</em>打开Breakpoints功能，也可以在<em>Proxy->Breakpoints Settings</em>设置。</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-8.png?attname=&amp;e=1450358893&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:_u_5Jf_FZhFFAdb6VxPwHxekXk4" title="Breakpoints" alt="Breakpoints" /></p>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151216-8.png" title="Breakpoints" alt="Breakpoints" /></p>
 
 <pre><code>  Breakpoints截取网络过程中网络请求并没有暂停，长时间的等待可能导致请求超时。
 </code></pre></li>
@@ -63,7 +63,7 @@
 
 <p>  Rewrite是将请求数据或返回结果替换，点击<em>Tools->Rewrite</em>，选中<em>Enable Rewrite</em>，添加<em>Sets</em>，根据需要添加<em>Locations</em>信息，添加了的话<em>Rewrite</em>将只针对<em>Locations</em>列表请求有效，再添加<em>Rules</em>规则，可以对请求和返回数据替换，支持通配符。有一个<em>Degbug in Error Log</em>的选项，作用是如果有匹配到的话会在Log记录里显示出来，Log记录是在<em>Window->Error Log</em>中。</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-1.png?attname=&amp;e=1450404100&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:qef3o6IMyhpTslqCcKJTAfIPZiQ" width="500" title="Rewrite" alt="Rewrite" /></p></li>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151217-1.png" width="500" title="Rewrite" alt="Rewrite" /></p></li>
 <li><p>Map Local</p>
 
 <p>  Map Local 是将本地文件作为请求网络的返回数据，这样就可以在部署到远程网络前进行测试。</p></li>
@@ -84,25 +84,25 @@
 
 <p>  Repeat Advanced可以设置并发数以及重复次数，对于负载测试很有帮助。</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-6.png?attname=&amp;e=1450357558&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:5nnRmi_6sk9ZWjignqtuedzFEdA" title="Repeat Advanced" alt="Repeat Advanced" /></p>
+<p>  ![Repeat Advanced]<a href="http://vviicc.qiniudn.com/QQ20151216-6.png">http://vviicc.qiniudn.com/QQ20151216-6.png</a> &ldquo;Repeat Advanced&rdquo;)</p>
 
-<p>  <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-7.png?attname=&amp;e=1450357558&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:zHfMoMg_8VMWPnqpjBh41Ilu_y0" width="750" title="Repeat Advanced Result" alt="Repeat Advanced Result" /></p></li>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151216-7.png" width="750" title="Repeat Advanced Result" alt="Repeat Advanced Result" /></p></li>
 </ul>
 </li>
 <li><p><strong>模拟网速</strong></p>
 
 <p> Charles还支持模拟不同网速功能，在<em>Proxy->Throttle Settings</em>选中<em>Enable Throttling</em>，根据需要添加<em>Locations</em>，如果选中了<em>Only for selected hosts</em>，并且<em>Locations</em>中有数据，则只有<em>Locations</em>列表中的请求会被限速。<em>Throttle Configuration</em>中对网速进行配置。</p>
 
-<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-2.png?attname=&amp;e=1450405497&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:VYWsm7pY1J9QTh0FTnsbpT-OcSQ" title="Throttle Configuration" alt="Throttle Configuration" /></p>
+<p> <img src="http://vviicc.qiniudn.com/QQ20151217-2.png" title="Throttle Configuration" alt="Throttle Configuration" /></p>
 
 <blockquote><p>如果仅仅是需要模拟网速，<a href="https://developer.apple.com/downloads/index.action?q=Hardware%20IO%20Tools">Network Link Conditioner</a> 也是个不错的选择。&ndash;> <a href="http://nshipster.com/network-link-conditioner/">相关教程</a></p></blockquote></li>
 <li><p><strong>自动保存</strong></p>
 
 <p> 自动保存 (<em>Auto Save</em>) 能在设定的时间间隔里自动保存Session记录，对监控长时间网络请求很有帮助。到了设定的时间间隔Charles会保存之前的记录在设定的本地目录文件，文件会以请求时间命名，保存后会把之前Charles在内存里的记录清除掉，这样长时间的请求也不会超出内存。设置方法是<em>Tools->Auto Save</em>，选择<em>Enable Auto Save</em>，设定时间间隔、保存路径和保存格式。</p>
 
-<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-4.png?attname=&amp;e=1450406615&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dd9BdxEgogNfGgEMxmb7RBSTML0" title="Auto Save" alt="Auto Save" /></p>
+<p> <img src="http://vviicc.qiniudn.com/QQ20151217-4.png" title="Auto Save" alt="Auto Save" /></p>
 
-<p> <img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-5.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dbx69cJARmZs7b_iMV5ND8LQ-_o" title="Auto Save" alt="Auto Save" /></p></li>
+<p> <img src="http://vviicc.qiniudn.com/QQ20151217-5.png" title="Auto Save" alt="Auto Save" /></p></li>
 <li><p><strong>反向代理</strong></p>
 
 <p> 反向代理（<em>Reverse Proxy</em>）可以将本地可用端口替换成远程web服务器端口（一般为80端口）</p></li>
@@ -151,7 +151,7 @@
 
 <p>首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到<em>Proxy->Proxy Settings</em>设置，设置后其实就是自动设置了网络代理。</p>
 
-<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-1.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:dDEb12le2AkXoOhbRGtObCbFns8" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
+<p><img src="http://vviicc.qiniudn.com/QQ20151216-1.png" width="500" title="网络代理设置" alt="网络代理设置" /></p></li>
 <li><p><strong>iOS模拟器</strong></p>
 
 <p>iOS模拟器也是使用Mac OSX的系统代理设置</p>
@@ -161,7 +161,7 @@
 
 <p>选择和Mac同一个WIFI网络，选择HTTP代理为<em>手动</em>。</p>
 
-<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/FullSizeRender.jpg?attname=&amp;e=1450344950&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:gzIUZ2ybFOQE-KH_Vh2whrsrSuU" width="500" title="HTTP代理" alt="HTTP代理" /></p>
+<p><img src="http://vviicc.qiniudn.com/FullSizeRender.jpg" width="500" title="HTTP代理" alt="HTTP代理" /></p>
 
 <ul>
 <li><p>服务器：设为Mac的IP地址，可以通过Charles的<em>Help->Local IP Address</em>查看， 或者通过Mac的<em>设置->网络->TCP/IP</em>查看IP地址。</p>
@@ -172,7 +172,7 @@
 </ul>
 
 
-<p><img src="http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-2.png?attname=&amp;e=1450406990&amp;token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:oL_BdMEYRaX7SKHiaf6qWU1WAl8" width="500" title="端口号" alt="端口号" /></p>
+<p><img src="http://vviicc.qiniudn.com/QQ20151216-2.png" width="500" title="端口号" alt="端口号" /></p>
 
 <ul>
 <li>鉴定：选择不鉴定</li>
