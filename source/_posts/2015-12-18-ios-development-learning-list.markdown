@@ -145,6 +145,3 @@ categories: 清单
 * 项目工具
 	* Scrum
 	* Axure
-
-求打赏
-![支付宝](../images/pay.png =100x "支付宝")

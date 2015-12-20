@@ -17,7 +17,7 @@ categories: 利器
 
 	* 在*Proxy->Recording Settings*有*Include*和*Exclude*设置，*Include*中如果添加了请求，那仅限于这里添加的请求会被记录。如果*Include*列表为空，那就仅仅过滤掉*Exclude*列表的请求，每个请求可以指定协议，主机地址，端口，路径，参数等信息，支持通配符。
 	
-		![过滤网络包](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-4.png?attname=&e=1450344744&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:0j-Av_IOGQAgPoH9LxYq8iKaRN8 =500x "过滤网络包")
+		![过滤网络包](http://vviicc.qiniudn.com/QQ20151216-4.png =500x "过滤网络包")
 		
 		*以下所有请求接口来自于 [*openweathermap*](http://openweathermap.org/ "openweathermap") 提供的开放API 
 		
@@ -33,7 +33,7 @@ categories: 利器
 	
 		对要修改的请求记录选择 *Edit* ,修改请求，然后修改请求数据，点击执行。
 		
-		![Edit](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-5.png?attname=&e=1450344744&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:mWo6Hy2-1pQ0LSpik_SKBCL90gc =500x "Edit")
+		![Edit](http://vviicc.qiniudn.com/QQ20151216-5.png =500x "Edit")
 		
 	* 动态修改（*Breakpoints*, *Rewrite*, *Map Loacl*, *Map Remote*）
 	
@@ -41,7 +41,7 @@ categories: 利器
 		
 			添加了Breakpoints的请求发生时，会截取改请求，可以对请求和返回数据进行修改，适合临时性修改请求和返回数据。添加方法是在选中某个请求点击*Breakpoints*，选择*Proxy->Enable Breakpoints*打开Breakpoints功能，也可以在*Proxy->Breakpoints Settings*设置。
 			
-			![Breakpoints](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-8.png?attname=&e=1450358893&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:_u_5Jf_FZhFFAdb6VxPwHxekXk4 "Breakpoints")
+			![Breakpoints](http://vviicc.qiniudn.com/QQ20151216-8.png "Breakpoints")
 				
 				Breakpoints截取网络过程中网络请求并没有暂停，长时间的等待可能导致请求超时。
 			
@@ -49,7 +49,7 @@ categories: 利器
 		
 			Rewrite是将请求数据或返回结果替换，点击*Tools->Rewrite*，选中*Enable Rewrite*，添加*Sets*，根据需要添加*Locations*信息，添加了的话*Rewrite*将只针对*Locations*列表请求有效，再添加*Rules*规则，可以对请求和返回数据替换，支持通配符。有一个*Degbug in Error Log*的选项，作用是如果有匹配到的话会在Log记录里显示出来，Log记录是在*Window->Error Log*中。
 			
-			![Rewrite](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-1.png?attname=&e=1450404100&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:qef3o6IMyhpTslqCcKJTAfIPZiQ =500x "Rewrite")
+			![Rewrite](http://vviicc.qiniudn.com/QQ20151217-1.png =500x "Rewrite")
 			
 		* Map Local
 		
@@ -69,15 +69,15 @@ categories: 利器
 	
 		Repeat Advanced可以设置并发数以及重复次数，对于负载测试很有帮助。
 		
-		![Repeat Advanced](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-6.png?attname=&e=1450357558&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:5nnRmi_6sk9ZWjignqtuedzFEdA "Repeat Advanced") 
+		![Repeat Advanced]http://vviicc.qiniudn.com/QQ20151216-6.png "Repeat Advanced") 
 		
-		![Repeat Advanced Result](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151216-7.png?attname=&e=1450357558&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:zHfMoMg_8VMWPnqpjBh41Ilu_y0 =750x "Repeat Advanced Result")
+		![Repeat Advanced Result](http://vviicc.qiniudn.com/QQ20151216-7.png =750x "Repeat Advanced Result")
 	
 5. **模拟网速**
 
 	Charles还支持模拟不同网速功能，在*Proxy->Throttle Settings*选中*Enable Throttling*，根据需要添加*Locations*，如果选中了*Only for selected hosts*，并且*Locations*中有数据，则只有*Locations*列表中的请求会被限速。*Throttle Configuration*中对网速进行配置。
 	
-	![Throttle Configuration](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-2.png?attname=&e=1450405497&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:VYWsm7pY1J9QTh0FTnsbpT-OcSQ "Throttle Configuration")
+	![Throttle Configuration](http://vviicc.qiniudn.com/QQ20151217-2.png "Throttle Configuration")
 	
 	> 如果仅仅是需要模拟网速，[Network Link Conditioner](https://developer.apple.com/downloads/index.action?q=Hardware%20IO%20Tools) 也是个不错的选择。--> [相关教程](http://nshipster.com/network-link-conditioner/)
 	
@@ -85,9 +85,9 @@ categories: 利器
 
 	自动保存 (*Auto Save*) 能在设定的时间间隔里自动保存Session记录，对监控长时间网络请求很有帮助。到了设定的时间间隔Charles会保存之前的记录在设定的本地目录文件，文件会以请求时间命名，保存后会把之前Charles在内存里的记录清除掉，这样长时间的请求也不会超出内存。设置方法是*Tools->Auto Save*，选择*Enable Auto Save*，设定时间间隔、保存路径和保存格式。
 	
-	![Auto Save](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-4.png?attname=&e=1450406615&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dd9BdxEgogNfGgEMxmb7RBSTML0 "Auto Save")
+	![Auto Save](http://vviicc.qiniudn.com/QQ20151217-4.png "Auto Save")
 	
-	![Auto Save](http://7rfl57.com1.z0.glb.clouddn.com/QQ20151217-5.png?attname=&e=1450406990&token=5JO6EV56uqnbS1xtKLuQY8XNPSgzftW_t-GExHM9:Dbx69cJARmZs7b_iMV5ND8LQ-_o "Auto Save")
+	![Auto Save](http://vviicc.qiniudn.com/QQ20151217-5.png "Auto Save")
 	
 7. **反向代理**
 
