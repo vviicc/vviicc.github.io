@@ -4,7 +4,7 @@
   <title><![CDATA[分类：利器 | Vic笔记]]></title>
   <link href="http://www.vviicc.com/blog/categories/li-qi/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2015-12-21T10:47:43+08:00</updated>
+  <updated>2015-12-21T12:18:41+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -102,7 +102,7 @@
 
 <p>  Repeat Advanced可以设置并发数以及重复次数，对于负载测试很有帮助。</p>
 
-<p>  ![Repeat Advanced]<a href="http://vviicc.qiniudn.com/QQ20151216-6.png">http://vviicc.qiniudn.com/QQ20151216-6.png</a> &ldquo;Repeat Advanced&rdquo;)</p>
+<p>  <img src="http://vviicc.qiniudn.com/QQ20151216-6.png" title="Repeat Advanced" alt="Repeat Advanced" /></p>
 
 <p>  <img src="http://vviicc.qiniudn.com/QQ20151216-7.png" width="750" title="Repeat Advanced Result" alt="Repeat Advanced Result" /></p></li>
 </ul>
