@@ -9,16 +9,10 @@
   <meta name="author" content="Vic">
 
   
-  <meta name="description" content="iOS SDK UIKit 生命周期
-Frame调用时机
-手势
-UIWebView
-Secheme
-自定义控件实践 开源 SVPullToRefresh
-MBProgressHUD
-ReSideMenu 绘图 CoreGraphics
-CALayer
-QuatzCore 开源 PNChart 动画 &hellip;">
+  <meta name="description" content="说明 protobuf 3.0.0（包括）以上才官方支持Objective-C，低于3.0.0的请忽略或使用第三方转换工具
+Objective C 2.0运行时环境 (32bit &amp; 64bit iOS, 64bit OS X)
+XCode 7.0及以上
+基于性能原因没有使用ARC， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +63,1177 @@ QuatzCore 开源 PNChart 动画 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/use-of-protobuf-3-0-0-for-objective-c/">Objective-C环境的protobuf3.0.0使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-01T20:11:52+08:00'><span class='date'>2016 年3 月1 日</span> <span class='time'>8:11 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>说明</h3>
+
+<hr />
+
+<ul>
+<li><a href="https://github.com/google/protobuf"><strong>protobuf</strong></a> 3.0.0（包括）以上才官方支持Objective-C，低于3.0.0的请忽略或使用第三方转换工具</li>
+<li>Objective C 2.0运行时环境 (32bit &amp; 64bit iOS, 64bit OS X)</li>
+<li>XCode 7.0及以上</li>
+<li>基于性能原因没有使用ARC，但可以被ARC代码调用</li>
+</ul>
+
+
+<h3>步骤</h3>
+
+<hr />
+
+<p>主要包括两个步骤：</p>
+
+<ol>
+<li><strong>转换</strong>：将我们的XXX.proto文件转成Objective C文件，也就是XXX.h和XXX.m文件，转换的工具是使用<strong>protoc</strong>这种二进制文件来生成的，稍后会介绍如何生成<strong>protoc</strong>这个文件(这个文件需要自己生成)以及如果使用它来转换成Objective C文件。</li>
+<li><strong>集成</strong>：在项目中加入protobuf库以及步骤1生成的Objective C文件。</li>
+</ol>
+
+
+<h3>详细步骤</h3>
+
+<h5>步骤1：转换</h5>
+
+<hr />
+
+<p><strong>生成protoc</strong></p>
+
+<ol>
+<li>如果没有装autoconf automake libtool需要先装这几个，这里使用brew来安装，在shell执行 <code>brew install autoconf automake libtool</code>即可，如果没有brew请自行先安装brew。</li>
+<li>下载面向Objective-C的protobuf库，地址为<a href="https://github.com/google/protobuf/releases">https://github.com/google/protobuf/releases</a>,要下载对应Objective-C的版本比如 protobuf-objectivec-3.0.0-beta-2.zip，解压。</li>
+<li>cd到下载的目录，执行./autogen.sh</li>
+<li><p>依次执行</p>
+
+<pre><code>$ ./configure
+$ make
+$ make check
+$ sudo make install
+</code></pre></li>
+<li><p>再执行<code>objectivec/DevTools/full_mac_build.sh</code>，执行完后会看到src目录下生成了protoc二进制文件</p></li>
+</ol>
+
+
+<p><strong>使用protoc转换</strong></p>
+
+<ol>
+<li><p>创建proto文件，比如Person.proto</p>
+
+<pre><code>    syntax = "proto2";
+
+    message Person
+    {   
+        required int32 id = 1;
+        required string username = 2;
+        optional string phone = 3;
+    }
+</code></pre>
+
+<p>需要注意的是要指明proto的语法规则是proto2还是proto3。</p></li>
+<li><p>在src目录(protoc所在目录)执行</p>
+
+<pre><code>protoc --proto_path=... --objc_out=... XXX.proto
+</code></pre>
+
+<p>其中proto_path是我们创建的proto文件所在目录，objc_out为Objective-C文件输入路径,XXX.proto是我们创建的proto文件，可以一次转换多个proto文件，加在XXX.proto后面即可。</p>
+
+<p>  举例：我们在src目录下新建两个文件夹，gen和protocols文件夹，gen为输出目录，protocols用于存放proto文件，将创建的Person.proto放在protocols文件夹下，执行命令</p>
+
+<pre><code>  protoc --proto_path=protocols --objc_out=gen protocols/Person.proto
+</code></pre>
+
+<p>  然后在gen文件夹下就会生成Person.pbobjc.h和Person.pbobjc.m文件。</p></li>
+</ol>
+
+
+<h5>步骤2：集成</h5>
+
+<hr />
+
+<ol>
+<li>将生成的Ojective-C文件（上面例子的Person.pbobjc.h和Person.pbobjc.m）放到项目中，如果项目使用了ARC,要将.m（例子的Person.pbobjc.m）的Complier Flags设为<code>-fno-objc-arc</code>。（protobuf基于性能原因没有使用ARC）</li>
+<li><p>加入protobuf库，有两种方式，第一种是使用CocoaPods集成，第二种是把相关文件拖入项目中。</p>
+
+<ul>
+<li><p>使用CocoaPods集成，有一个现成的pod可以使用&ndash;Protobuf,可以<code>pod search Protobuf</code>搜索查看详情，pod内容为</p>
+
+<pre><code>platform :ios, '7.1'
+pod 'Protobuf', '~&gt; 3.0.0-beta-2'
+</code></pre>
+
+<p>需要注意的是 <code>platform :ios, '7.1'</code> 7.1及以上才能导入这个库,这种方式优点是操作简单，缺点是<code>platform :ios, '7.1'</code> 要7.1或以上</p></li>
+<li><p>  拖入相关文件到项目中，将objectivec文件夹下的所有的.h文件和.m文件（除了GPBProtocolBuffers.m）(GPB开头的那些文件)以及整个google文件夹add到项目中，如果项目中使用了ARC需要将以上所有.m文件的的Complier Flags设为<code>-fno-objc-arc</code>。这种方法的优点是灵活性强，没有7.1的束缚。缺点是操作麻烦点，如果用了ARC的话还要手动添加<code>-fno-objc-arc</code>（使用CocoaPods集成会自动添加）</p></li>
+</ul>
+</li>
+</ol>
+
+
+<h3>简单使用</h3>
+
+<p>直接上代码</p>
+
+<pre><code>    - (void)viewDidLoad {
+    [super viewDidLoad];
+    Person *person = [[Person alloc] init];
+    person.id_p = 100;  // id可能是和库重复了，自动转换成了id_p
+    person.username = @"Li";
+    person.phone = @"10086";
+    NSData *data = [person data];
+    Person *p = [Person parseFromData:data error:nil];
+    NSLog(@"person:%@",p);
+}
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/objective-c-stype-guide/">[译]Objective C 代码风格规范</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-10T13:34:41+08:00'><span class='date'>2016 年1 月10 日</span> <span class='time'>1:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>文章索引</h2>
+
+<ul>
+<li><a href="#%E8%AF%AD%E8%A8%80">语言</a></li>
+<li><a href="#code-organization">代码组织</a></li>
+<li><a href="#spacing">空格</a></li>
+<li><a href="#comments">注释</a></li>
+<li><a href="#naming">Naming</a>
+
+<ul>
+<li><a href="#underscores">Underscores</a></li>
+</ul>
+</li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#property-attributes">Property Attributes</a></li>
+<li><a href="#dot-notation-syntax">Dot-Notation Syntax</a></li>
+<li><a href="#literals">Literals</a></li>
+<li><a href="#constants">Constants</a></li>
+<li><a href="#enumerated-types">Enumerated Types</a></li>
+<li><a href="#case-statements">Case Statements</a></li>
+<li><a href="#private-properties">Private Properties</a></li>
+<li><a href="#booleans">Booleans</a></li>
+<li><a href="#conditionals">Conditionals</a>
+
+<ul>
+<li><a href="#ternary-operator">Ternary Operator</a></li>
+</ul>
+</li>
+<li><a href="#init-methods">Init Methods</a></li>
+<li><a href="#class-constructor-methods">Class Constructor Methods</a></li>
+<li><a href="#cgrect-functions">CGRect Functions</a></li>
+<li><a href="#golden-path">Golden Path</a></li>
+<li><a href="#error-handling">Error handling</a></li>
+<li><a href="#singletons">Singletons</a></li>
+<li><a href="#line-breaks">Line Breaks</a></li>
+<li><a href="#smiley-face">Smiley Face</a></li>
+<li><a href="#xcode-project">Xcode Project</a></li>
+</ul>
+
+
+<h2>语言</h2>
+
+<p>尽可能用英文</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UIColor</span> <span class="o">*</span><span class="n">myColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UIColor</span> <span class="o">*</span><span class="n">myColour</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>代码组织</h2>
+
+<p>用 <code>#pragma mark -</code> 对方法以及 protocol/delegate 的实现遵循以下通用结构。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#pragma mark - Lifecycle</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">init</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didReceiveMemoryWarning</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - Custom Accessors</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCustomProperty:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">customProperty</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - IBActions</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">submitData:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - Public</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">publicMethod</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - Private</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">privateMethod</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - Protocol conformance</span>
+</span><span class='line'><span class="cp">#pragma mark - UITextFieldDelegate</span>
+</span><span class='line'><span class="cp">#pragma mark - UITableViewDataSource</span>
+</span><span class='line'><span class="cp">#pragma mark - UITableViewDelegate</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - NSCopying</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">copyWithZone:</span><span class="p">(</span><span class="n">NSZone</span> <span class="o">*</span><span class="p">)</span><span class="nv">zone</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">description</span> <span class="p">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>空格</h2>
+
+<ul>
+<li>使用两个空格缩进（节省空间），不要用tab键缩进。</li>
+<li>方法块和其他块 (<code>if</code>/<code>else</code>/<code>switch</code>/<code>while</code> 等等) 要在语句的同一行打开但在新行关闭。</li>
+</ul>
+
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">isHappy</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//Do something</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//Do something else</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">isHappy</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//Do something</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//Do something else</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>方法之间要有一个空行分开，每个方法尽量保持小而精。</li>
+<li>尽可能使用自动合成，必须要自己合成的话 <code>@synthesize</code> 和 <code>@dynamic</code> 要在实现文件的新行申明.</li>
+<li>方法调用应尽量避免使用冒号对齐方式，尽管有的方法带有3个以上的参数冒号对其能使其更有可读性，但在包含 block 的方法<strong>不要</strong>使用冒号对齐因为 XCode 的缩进会让其无法辨识。</li>
+</ul>
+
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// blocks are easily readable</span>
+</span><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// something</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// something</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// colon-aligning makes the block indentation hard to read</span>
+</span><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+</span><span class='line'>                 <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                     <span class="c1">// something</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>                 <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="c1">// something</span>
+</span><span class='line'>                 <span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>注释</h2>
+
+<p>注释应当用于解释 <strong>为什么</strong> 特定的代码段要这么做，任何的注释必须要保持更新或删掉。</p>
+
+<p>代码块注释通常要避免使用，因为代码应该尽可能要做到自解释。  <em>例外：这条不适用于使用注释用于生产文档的。</em></p>
+
+<h2>命名</h2>
+
+<p>Apple naming conventions should be adhered to wherever possible, especially those related to <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html">memory management rules</a> (<a href="http://stackoverflow.com/a/2865194/340508">NARC</a>).</p>
+
+<p>Long, descriptive method and variable names are good.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UIButton</span> <span class="o">*</span><span class="n">settingsButton</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UIButton</span> <span class="o">*</span><span class="n">setBut</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A three letter prefix should always be used for class names and constants, however may be omitted for Core Data entity names. For any official raywenderlich.com books, starter kits, or tutorials, the prefix &lsquo;RWT&rsquo; should be used.</p>
+
+<p>Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">NSTimeInterval</span> <span class="k">const</span> <span class="n">RWTTutorialViewControllerNavigationFadeAnimationDuration</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">NSTimeInterval</span> <span class="k">const</span> <span class="n">fadetime</span> <span class="o">=</span> <span class="mf">1.7</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Properties should be camel-case with the leading word being lowercase. Use auto-synthesis for properties rather than manual @synthesize statements unless you have good reason.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">descriptiveVariableName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="n">varnm</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Underscores</h3>
+
+<p>When using properties, instance variables should always be accessed and mutated using <code>self.</code>. This means that all properties will be visually distinct, as they will all be prefaced with <code>self.</code>.</p>
+
+<p>An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.</p>
+
+<p>Local variables should not contain underscores.</p>
+
+<h2>Methods</h2>
+
+<p>In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple&rsquo;s style).  Always include a keyword and be descriptive with the word before the argument which describes the argument.</p>
+
+<p>The usage of the word &ldquo;and&rdquo; is reserved.  It should not be used for multiple parameters as illustrated in the <code>initWithWidth:height:</code> example below.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setExampleText:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">image:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendAction:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span> <span class="nf">to:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="nf">forAllCells:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">flag</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">viewWithTag:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tag</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initWithWidth:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">width</span> <span class="nf">height:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">height</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setT:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">i:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendAction:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">aSelector</span> <span class="o">:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nl">anObject</span> <span class="p">:(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">flag</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">taggedView:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tag</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initWithWidth:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">width</span> <span class="nf">andHeight:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">height</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initWith:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">width</span> <span class="nf">and:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">height</span><span class="p">;</span>  <span class="c1">// Never do this.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Variables</h2>
+
+<p>Variables should be named as descriptively as possible. Single letter variable names should be avoided except in <code>for()</code> loops.</p>
+
+<p>Asterisks indicating pointers belong with the variable, e.g., <code>NSString *text</code> not <code>NSString* text</code> or <code>NSString * text</code>, except in the case of constants.</p>
+
+<p><a href="#private-properties">Private properties</a> should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent.</p>
+
+<p>Direct access to instance variables that &lsquo;back&rsquo; properties should be avoided except in initializer methods (<code>init</code>, <code>initWithCoder:</code>, etc…), <code>dealloc</code> methods and within custom setters and getters. For more information on using Accessor Methods in Initializer Methods and dealloc, see <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6">here</a>.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">RWTTutorial</span> : <span class="bp">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">RWTTutorial</span> : <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Property Attributes</h2>
+
+<p>Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">weak</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Properties with mutable counterparts (e.g. NSString) should prefer <code>copy</code> instead of <code>strong</code>.
+Why? Even if you declared a property as <code>NSString</code> somebody might pass in an instance of an <code>NSMutableString</code> and then change it without you noticing that.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">copy</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tutorialName</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dot-Notation Syntax</h2>
+
+<p>Dot syntax is purely a convenient wrapper around accessor method calls. When you use dot syntax, the property is still accessed or changed using getter and setter methods.  Read more <a href="https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html">here</a></p>
+
+<p>Dot-notation should <strong>always</strong> be used for accessing and mutating properties, as it makes code more concise. Bracket notation is 好 in all other instances.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSInteger</span> <span class="n">arrayCount</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">array</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">orangeColor</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">delegate</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSInteger</span> <span class="n">arrayCount</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">array</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">setBackgroundColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">orangeColor</span><span class="p">]];</span>
+</span><span class='line'><span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">.</span><span class="n">delegate</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Literals</h2>
+
+<p><code>NSString</code>, <code>NSDictionary</code>, <code>NSArray</code>, and <code>NSNumber</code> literals should be used whenever creating immutable instances of those objects. Pay special care that <code>nil</code> values can not be passed into <code>NSArray</code> and <code>NSDictionary</code> literals, as this will cause a crash.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">names</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;Brian&quot;</span><span class="p">,</span> <span class="s">@&quot;Matt&quot;</span><span class="p">,</span> <span class="s">@&quot;Chris&quot;</span><span class="p">,</span> <span class="s">@&quot;Alex&quot;</span><span class="p">,</span> <span class="s">@&quot;Steve&quot;</span><span class="p">,</span> <span class="s">@&quot;Paul&quot;</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">productManagers</span> <span class="o">=</span> <span class="l">@{</span><span class="s">@&quot;iPhone&quot;</span><span class="o">:</span> <span class="s">@&quot;Kate&quot;</span><span class="p">,</span> <span class="s">@&quot;iPad&quot;</span><span class="o">:</span> <span class="s">@&quot;Kamal&quot;</span><span class="p">,</span> <span class="s">@&quot;Mobile Web&quot;</span><span class="o">:</span> <span class="s">@&quot;Bill&quot;</span><span class="l">}</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">shouldUseLiterals</span> <span class="o">=</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">buildingStreetNumber</span> <span class="o">=</span> <span class="mi">@10018</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSArray</span> <span class="nl">arrayWithObjects</span><span class="p">:</span><span class="s">@&quot;Brian&quot;</span><span class="p">,</span> <span class="s">@&quot;Matt&quot;</span><span class="p">,</span> <span class="s">@&quot;Chris&quot;</span><span class="p">,</span> <span class="s">@&quot;Alex&quot;</span><span class="p">,</span> <span class="s">@&quot;Steve&quot;</span><span class="p">,</span> <span class="s">@&quot;Paul&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">productManagers</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys</span><span class="p">:</span> <span class="s">@&quot;Kate&quot;</span><span class="p">,</span> <span class="s">@&quot;iPhone&quot;</span><span class="p">,</span> <span class="s">@&quot;Kamal&quot;</span><span class="p">,</span> <span class="s">@&quot;iPad&quot;</span><span class="p">,</span> <span class="s">@&quot;Bill&quot;</span><span class="p">,</span> <span class="s">@&quot;Mobile Web&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">shouldUseLiterals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithBool</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">buildingStreetNumber</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSNumber</span> <span class="nl">numberWithInteger</span><span class="p">:</span><span class="mi">10018</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Constants</h2>
+
+<p>Constants are 好 over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as <code>static</code> constants and not <code>#define</code>s unless explicitly being used as a macro.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span> <span class="k">const</span> <span class="n">RWTAboutViewControllerCompanyName</span> <span class="o">=</span> <span class="s">@&quot;RayWenderlich.com&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">CGFloat</span> <span class="k">const</span> <span class="n">RWTImageThumbnailHeight</span> <span class="o">=</span> <span class="mf">50.0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#define CompanyName @&quot;RayWenderlich.com&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define thumbnailHeight 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Enumerated Types</h2>
+
+<p>When using <code>enum</code>s, it is recommended to use the new fixed underlying type specification because it has stronger type checking and code completion. The SDK now includes a macro to facilitate and encourage use of fixed underlying types: <code>NS_ENUM()</code></p>
+
+<p><strong>For Example:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">,</span> <span class="n">RWTLeftMenuTopItemType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">RWTLeftMenuTopItemMain</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">RWTLeftMenuTopItemShows</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">RWTLeftMenuTopItemSchedule</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can also make explicit value assignments (showing older k-style constant definition):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">,</span> <span class="n">RWTGlobalConstants</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">RWTPinSizeMin</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">RWTPinSizeMax</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">RWTPinCountMin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">RWTPinCountMax</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Older k-style constant definitions should be <strong>avoided</strong> unless writing CoreFoundation C code (unlikely).</p>
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span> <span class="n">GlobalConstants</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">kMaxPinSize</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">kMaxPinCount</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Case Statements</h2>
+
+<p>Braces are not required for case statements, unless enforced by the complier.<br/>
+When a case contains more than one line, braces should be added.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="c1">// Multi-line example using braces</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the &lsquo;break&rsquo; statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// ** fall-through! **</span>
+</span><span class='line'>  <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// code executed for values 1 and 2</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When using an enumerated type for a switch, &lsquo;default&rsquo; is not needed.   For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">RWTLeftMenuTopItemType</span> <span class="n">menuType</span> <span class="o">=</span> <span class="n">RWTLeftMenuTopItemMain</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">menuType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">case</span> <span class="nl">RWTLeftMenuTopItemMain</span><span class="p">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">case</span> <span class="nl">RWTLeftMenuTopItemShows</span><span class="p">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">case</span> <span class="nl">RWTLeftMenuTopItemSchedule</span><span class="p">:</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>    <span class="k">break</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Private Properties</h2>
+
+<p>Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as <code>RWTPrivate</code> or <code>private</code>) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.</p>
+
+<p><strong>For Example:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">RWTDetailViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="n">GADBannerView</span> <span class="o">*</span><span class="n">googleAdView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">ADBannerView</span> <span class="o">*</span><span class="n">iAdView</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">strong</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="bp">UIWebView</span> <span class="o">*</span><span class="n">adXWebView</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Booleans</h2>
+
+<p>Objective-C uses <code>YES</code> and <code>NO</code>.  Therefore <code>true</code> and <code>false</code> should only be used for CoreFoundation, C or C++ code.  Since <code>nil</code> resolves to <code>NO</code> it is unnecessary to compare it in conditions. Never compare something directly to <code>YES</code>, because <code>YES</code> is defined to 1 and a <code>BOOL</code> can be up to 8 bits.</p>
+
+<p>This allows for more consistency across files and greater visual clarity.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">someObject</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">anotherObject</span> <span class="n">boolValue</span><span class="p">])</span> <span class="p">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">someObject</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">if</span> <span class="p">([</span><span class="n">anotherObject</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NO</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">isAwesome</span> <span class="o">==</span> <span class="nb">YES</span><span class="p">)</span> <span class="p">{}</span> <span class="c1">// Never do this.</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">isAwesome</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{}</span> <span class="c1">// Never do this.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If the name of a <code>BOOL</code> property is expressed as an adjective, the property can omit the “is” prefix but specifies the conventional name for the get accessor, for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">assign</span><span class="p">,</span> <span class="k">getter</span><span class="o">=</span><span class="n">isEditable</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">editable</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Text and example taken from the <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/Articles/NamingIvarsAndTypes.html#//apple_ref/doc/uid/20001284-BAJGIIJE">Cocoa Naming Guidelines</a>.</p>
+
+<h2>Conditionals</h2>
+
+<p>Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, <a href="http://programmers.stackexchange.com/a/16530">even more dangerous defect</a> may happen where the line &ldquo;inside&rdquo; the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">success</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">success</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span> <span class="k">return</span> <span class="n">success</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Ternary Operator</h3>
+
+<p>The Ternary operator, <code>?:</code> , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an <code>if</code> statement, or refactored into instance variables. In general, the best use of the ternary operator is during assignment of a variable and deciding which value to use.</p>
+
+<p>Non-boolean variables should be compared against something, and parentheses are added for improved readability.  If the variable being compared is a boolean type, then no parentheses are needed.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSInteger</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">BOOL</span> <span class="n">isHorizontal</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">isHorizontal</span> <span class="o">?</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="n">x</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">d</span> <span class="o">?</span> <span class="nl">c</span> <span class="p">:</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Init Methods</h2>
+
+<p>Init methods should follow the convention provided by Apple&rsquo;s generated code template.  A return type of &lsquo;instancetype&rsquo; should also be used instead of &lsquo;id&rsquo;.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">init</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See <a href="#class-constructor-methods">Class Constructor Methods</a> for link to article on instancetype.</p>
+
+<h2>Class Constructor Methods</h2>
+
+<p>Where class constructor methods are used, these should always return type of &lsquo;instancetype&rsquo; and never &lsquo;id&rsquo;. This ensures the compiler correctly infers the result type.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">Airplane</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">airplaneWithType:</span><span class="p">(</span><span class="n">RWTAirplaneType</span><span class="p">)</span><span class="nv">type</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>More information on instancetype can be found on <a href="http://nshipster.com/instancetype/">NSHipster.com</a>.</p>
+
+<h2>CGRect Functions</h2>
+
+<p>When accessing the <code>x</code>, <code>y</code>, <code>width</code>, or <code>height</code> of a <code>CGRect</code>, always use the <a href="http://developer.apple.com/library/ios/#documentation/graphicsimaging/reference/CGGeometry/Reference/reference.html"><code>CGGeometry</code> functions</a> instead of direct struct member access. From Apple&rsquo;s <code>CGGeometry</code> reference:</p>
+
+<blockquote><p>All functions described in this reference that take CGRect data structures as inputs implicitly standardize those rectangles before calculating their results. For this reason, your applications should avoid directly reading and writing the data stored in the CGRect data structure. Instead, use the functions described here to manipulate rectangles and to retrieve their characteristics.</p></blockquote>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">CGRect</span> <span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">x</span> <span class="o">=</span> <span class="n">CGRectGetMinX</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">y</span> <span class="o">=</span> <span class="n">CGRectGetMinY</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+</span><span class='line'><span class="bp">CGRect</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">CGRect</span> <span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">x</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">y</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'><span class="n">CGFloat</span> <span class="n">height</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'><span class="bp">CGRect</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="bp">CGRect</span><span class="p">){</span> <span class="p">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">CGPointZero</span><span class="p">,</span> <span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">size</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Golden Path</h2>
+
+<p>When coding with conditionals, the left hand margin of the code should be the &ldquo;golden&rdquo; or &ldquo;happy&rdquo; path.  That is, don&rsquo;t nest <code>if</code> statements.  Multiple return statements are OK.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">someMethod</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">someOther</span> <span class="n">boolValue</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//Do something important</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">someMethod</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">someOther</span> <span class="n">boolValue</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//Do something important</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Error handling</h2>
+
+<p>When methods return an error parameter by reference, switch on the returned value, not the error variable.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="nb">self</span> <span class="nl">trySomethingWithError</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Handle Error</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">trySomethingWithError</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Handle Error</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).</p>
+
+<h2>Singletons</h2>
+
+<p>Singleton objects should use a thread-safe pattern for creating their shared instance.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will prevent <a href="http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html">possible and sometimes prolific crashes</a>.</p>
+
+<h2>Line Breaks</h2>
+
+<p>Line breaks are an important topic since this style guide is focused for print and online readability.</p>
+
+<p>For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">productsRequest</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">SKProductsRequest</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithProductIdentifiers</span><span class="p">:</span><span class="n">productIdentifiers</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A long line of code like this should be carried on to the second line adhering to this style guide&rsquo;s Spacing section (two spaces).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">productsRequest</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">SKProductsRequest</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>  <span class="nl">initWithProductIdentifiers</span><span class="p">:</span><span class="n">productIdentifiers</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Smiley Face</h2>
+
+<p>Smiley faces are a very prominent style feature of the raywenderlich.com site!  It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic.  The end square bracket is used because it represents the largest smile able to be captured using ascii art.  A half-hearted smile is represented if an end parenthesis is used, and thus 不好.</p>
+
+<p><strong>好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">:</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>不好:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">:</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>Xcode project</h2>
+
+<p>The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.</p>
+
+<p>When possible, always turn on &ldquo;Treat Warnings as Errors&rdquo; in the target&rsquo;s Build Settings and enable as many <a href="http://boredzo.org/blog/archives/2009-11-07/warnings">additional warnings</a> as possible. If you need to ignore a specific warning, use <a href="http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas">Clang&rsquo;s pragma feature</a>.</p>
+
+<h1>Other Objective-C Style Guides</h1>
+
+<p>If ours doesn&rsquo;t fit your tastes, have a look at some other style guides:</p>
+
+<ul>
+<li><a href="https://github.com/RobotsAndPencils/objective-c-style-guide">Robots &amp; Pencils</a></li>
+<li><a href="https://github.com/NYTimes/objective-c-style-guide">New York Times</a></li>
+<li><a href="http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml">Google</a></li>
+<li><a href="https://github.com/github/objective-c-conventions">GitHub</a></li>
+<li><a href="https://trac.adium.im/wiki/CodingStyle">Adium</a></li>
+<li><a href="https://gist.github.com/soffes/812796">Sam Soffes</a></li>
+<li><a href="http://cocoadevcentral.com/articles/000082.php">CocoaDevCentral</a></li>
+<li><a href="http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html">Luke Redpath</a></li>
+<li><a href="http://www.cimgf.com/zds-code-style-guide/">Marcus Zarra</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -622,7 +1787,8 @@ PS：在你不用Charles的时候要记得关闭HTTP代理，否则会上不了�
     <section>
   <h1>分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/li-qi/'>利器 (2)</a></li>
+    <li class='category'><a href='/blog/categories/ios/'>ios (1)</a></li>
+<li class='category'><a href='/blog/categories/li-qi/'>利器 (2)</a></li>
 <li class='category'><a href='/blog/categories/qing-dan/'>清单 (1)</a></li>
 
   </ul>
@@ -630,6 +1796,14 @@ PS：在你不用Charles的时候要记得关闭HTTP代理，否则会上不了�
 <section>
   <h1>最新文章</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/use-of-protobuf-3-0-0-for-objective-c/">Objective-C环境的protobuf3.0.0使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/objective-c-stype-guide/">[译]Objective C 代码风格规范</a>
+      </li>
     
       <li class="post">
         <a href="/blog/ios-development-learning-list/">iOS系统学习规划</a>
@@ -652,7 +1826,7 @@ PS：在你不用Charles的时候要记得关闭HTTP代理，否则会上不了�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Vic -
+  Copyright &copy; 2016 - Vic -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
