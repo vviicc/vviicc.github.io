@@ -1,10 +1,18 @@
 ---
 layout: post
-title: "Charles-01-OSX/iOS 环境下的Charles配置篇"
+title: "Charles-01-OSX/iOS 环境下的Charles安装配置篇"
 date: 2015-12-17 14:24:06 +0800
 comments: true
 categories: 利器
 ---
+
+[Charles](https://www.charlesproxy.com/) 是一个可用于HTTP代理/监控/反向代理的工具，能够方便开发者观察所有的HTTP/HTTPS网络状况，包括网络请求，返回数据，HTTP头部等信息。
+
+### OSX环境下的Charles安装
+到*Charles*的官方下载页面 [https://www.charlesproxy.com/download/](https://www.charlesproxy.com/download/)，选择 *Mac OS X* 版本的dmg文件下载安装即可。
+
+### Charles的设置
+
 1.	**Mac OSX 代理设置**
 
 	首次安装会弹出是否允许Charles自动设置代理，选择允许就会自动设置，也可以到*Proxy->Proxy Settings*设置，设置后其实就是自动设置了网络代理。

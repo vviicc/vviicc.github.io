@@ -5,7 +5,23 @@ date: 2015-12-17 14:32:43 +0800
 comments: true
 categories: 利器
 ---
-1. **查看网络包**
+
+### 目录
+
+* [查看网络包](#1)  
+* [过滤网络包](#2)
+* [修改网络包](#3)
+* [重复请求](#4)
+* [模拟网速](#5)
+* [自动保存](#6)
+* [反向代理](#7)
+* [DNS欺骗](#8)
+* [SSL代理](#9)
+* [Tips](#10)
+	
+
+### 正文
+1. **<span id='1'>查看网络包</span>**
 
 	 Charles提供了两种形式查看网络包：*Structure*和*Sequence*视图。
 	
@@ -13,7 +29,7 @@ categories: 利器
 		
 	*Sequence*视图是以网络请求的时间顺序展示的。
 	
-2. **过滤网络包**
+2. **<span id='2'>过滤网络包</span>**
 
 	* 在*Proxy->Recording Settings*有*Include*和*Exclude*设置，*Include*中如果添加了请求，那仅限于这里添加的请求会被记录。如果*Include*列表为空，那就仅仅过滤掉*Exclude*列表的请求，每个请求可以指定协议，主机地址，端口，路径，参数等信息，支持通配符。
 	
@@ -25,7 +41,8 @@ categories: 利器
 	
 	* 选中某个请求包选择*Fouce*，这个请求包将与其他请求分开单独显示。
 	
-3. **修改网络包**
+	
+3. **<span id='3'>修改网络包</span>**
 
 	修改网络包有两种形式，一种是静态对之前的网络包请求修改再执行，另一种是动态修改正在请求的网络包。
 	
@@ -59,7 +76,7 @@ categories: 利器
 		
 			Map Remote 是将一个请求从某个服务器转成另一个服务器去处理。
 			
-4. **重复请求**
+4. **<span id="4">重复请求</span>**
 
 	* Repeat(重复一次)
 		
@@ -69,11 +86,11 @@ categories: 利器
 	
 		Repeat Advanced可以设置并发数以及重复次数，对于负载测试很有帮助。
 		
-		![Repeat Advanced]http://vviicc.qiniudn.com/QQ20151216-6.png "Repeat Advanced") 
+		![Repeat Advanced](http://vviicc.qiniudn.com/QQ20151216-6.png "Repeat Advanced") 
 		
 		![Repeat Advanced Result](http://vviicc.qiniudn.com/QQ20151216-7.png =750x "Repeat Advanced Result")
 	
-5. **模拟网速**
+5. **<span id='5'>模拟网速</span>**
 
 	Charles还支持模拟不同网速功能，在*Proxy->Throttle Settings*选中*Enable Throttling*，根据需要添加*Locations*，如果选中了*Only for selected hosts*，并且*Locations*中有数据，则只有*Locations*列表中的请求会被限速。*Throttle Configuration*中对网速进行配置。
 	
@@ -81,7 +98,7 @@ categories: 利器
 	
 	> 如果仅仅是需要模拟网速，[Network Link Conditioner](https://developer.apple.com/downloads/index.action?q=Hardware%20IO%20Tools) 也是个不错的选择。--> [相关教程](http://nshipster.com/network-link-conditioner/)
 	
-6. **自动保存**
+6. **<span id='6'>自动保存</span>**
 
 	自动保存 (*Auto Save*) 能在设定的时间间隔里自动保存Session记录，对监控长时间网络请求很有帮助。到了设定的时间间隔Charles会保存之前的记录在设定的本地目录文件，文件会以请求时间命名，保存后会把之前Charles在内存里的记录清除掉，这样长时间的请求也不会超出内存。设置方法是*Tools->Auto Save*，选择*Enable Auto Save*，设定时间间隔、保存路径和保存格式。
 	
@@ -89,15 +106,15 @@ categories: 利器
 	
 	![Auto Save](http://vviicc.qiniudn.com/QQ20151217-5.png "Auto Save")
 	
-7. **反向代理**
+7. **<span id='7'>反向代理</span>**
 
 	反向代理（*Reverse Proxy*）可以将本地可用端口替换成远程web服务器端口（一般为80端口）
 	
-8. **DNS欺骗**
+8. **<span id='8'>DNS欺骗</span>**
 
 	DNS欺骗（*DNS Spoofing*）可以将域名直接替换成想要的IP地址，正常的DNS解析更换需要较长时间才生效，而使用DNS欺骗可以立即更换IP地址，不用等待DNS解析生效就可以进行测试。
 
-9. **HTTPS/SSL代理**
+9. **<span id='9'>HTTPS/SSL代理</span>**
 	
 	* 原理：*Charles*能够支持HTTPS代理的原理是*Charles*充当了中间人角色，Charles会为web服务器动态生成一个使用自己根证书（*Charles CA Certificate*）签名的证书，*Charles*会接收web服务器的证书，而客户端浏览器就接收Charles生成的证书。因此在在使用*Charles*作为HTTPS代理时客户端在请求HTTPS接口时会弹出安全警告，提示*Charles*根证书不被信任，所以需要添加*Charles*根证书为信任证书中，就不会出现类似的警告了。
 	
@@ -117,7 +134,7 @@ categories: 利器
   				<true/>
 			</dict>
 
-10. **Tips**
+10. **<span id='10'>Tips</span>**
 
 	* 可以同时运行多个Charles，在Charles安装目录下用终端执行```open charles.app -n```，为每个Charles设置不同的监听端口，比如一个监听iOS设备的端口，一个监听OSX的端口。
 
