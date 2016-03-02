@@ -4,7 +4,7 @@
   <title><![CDATA[Vic笔记]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2016-03-01T20:32:28+08:00</updated>
+  <updated>2016-03-02T10:17:00+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -134,6 +134,12 @@ pod 'Protobuf', '~&gt; 3.0.0-beta-2'
     NSLog(@"person:%@",p);
 }
 </code></pre>
+
+<h3>Demo</h3>
+
+<p>地址：<a href="https://github.com/vviicc/Protobuf-ObjectiveC-Demo">https://github.com/vviicc/Protobuf-ObjectiveC-Demo</a></p>
+
+<p>此Demo包含生成的protoc文件以及protobuf的使用。</p>
 ]]></content>
   </entry>
   
