@@ -4,7 +4,7 @@
   <title><![CDATA[Vic笔记]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2016-03-02T10:17:00+08:00</updated>
+  <updated>2016-03-30T15:56:31+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -86,7 +86,7 @@ $ sudo make install
 <pre><code>protoc --proto_path=... --objc_out=... XXX.proto
 </code></pre>
 
-<p>其中proto_path是我们创建的proto文件所在目录，objc_out为Objective-C文件输入路径,XXX.proto是我们创建的proto文件，可以一次转换多个proto文件，加在XXX.proto后面即可。</p>
+<p>其中proto_path是我们创建的proto文件所在目录，objc_out为Objective-C文件输出路径,XXX.proto是我们创建的proto文件，可以一次转换多个proto文件，加在XXX.proto后面即可。</p>
 
 <p>  举例：我们在src目录下新建两个文件夹，gen和protocols文件夹，gen为输出目录，protocols用于存放proto文件，将创建的Person.proto放在protocols文件夹下，执行命令</p>
 
@@ -140,6 +140,14 @@ pod 'Protobuf', '~&gt; 3.0.0-beta-2'
 <p>地址：<a href="https://github.com/vviicc/Protobuf-ObjectiveC-Demo">https://github.com/vviicc/Protobuf-ObjectiveC-Demo</a></p>
 
 <p>此Demo包含生成的protoc文件以及protobuf的使用。</p>
+
+<h3>参考</h3>
+
+<ol>
+<li><a href="https://github.com/google/protobuf/tree/master/objectivec">https://github.com/google/protobuf/tree/master/objectivec </a>「源代码在这里」</li>
+<li><a href="https://developers.google.com/protocol-buffers/docs/reference/objective-c-generated">https://developers.google.com/protocol-buffers/docs/reference/objective-c-generated</a>「语法糖在这里」</li>
+</ol>
+
 ]]></content>
   </entry>
   
