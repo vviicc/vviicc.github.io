@@ -4,7 +4,7 @@
   <title><![CDATA[Vic笔记]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2016-03-30T15:56:31+08:00</updated>
+  <updated>2016-06-02T11:28:21+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The iOS Knowledge Snippet]]></title>
+    <link href="http://www.vviicc.com/blog/the-ios-knowledge-snippet/"/>
+    <updated>2016-06-02T11:15:50+08:00</updated>
+    <id>http://www.vviicc.com/blog/the-ios-knowledge-snippet</id>
+    <content type="html"><![CDATA[<h3>iOS知识碎片</h3>
+
+<ul>
+<li><p>NSDictionaryOfVariableBindings</p>
+
+<p>  <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/macro/NSDictionaryOfVariableBindings">Creates a dictionary wherein the keys are string representations of the corresponding values’ variable names.</a></p>
+
+<p>  <a href="http://www.devdiv.com/nsdictionaryofvariablebindings_-blog-21666-52426.html">NSDictionaryOfVariableBindings实际上做了什么？</a></p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发实用工具「保持更新」]]></title>
+    <link href="http://www.vviicc.com/blog/the-useful-tools-for-ios-development/"/>
+    <updated>2016-04-01T11:34:36+08:00</updated>
+    <id>http://www.vviicc.com/blog/the-useful-tools-for-ios-development</id>
+    <content type="html"><![CDATA[<blockquote><p>所谓工欲善其事,必先利其器。利用前人造的轮子能大大提高开发效率，这篇文章将整理iOS开发中那些实用的轮子。萝卜白菜各有所爱，仅列出自己觉得实用并且已经用过的轮子来推荐，大家有好的也欢迎在评论里推荐😃</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objective-C环境的protobuf3.0.0使用]]></title>

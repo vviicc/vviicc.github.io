@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.vviicc.com/blog/the-ios-knowledge-snippet/</loc>
+    <lastmod>2016-06-02T11:15:50+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://www.vviicc.com/blog/the-useful-tools-for-ios-development/</loc>
+    <lastmod>2016-04-01T11:34:36+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://www.vviicc.com/blog/use-of-protobuf-3-0-0-for-objective-c/</loc>
     <lastmod>2016-03-01T20:11:52+08:00</lastmod>
   </url>
@@ -37,5 +45,8 @@
   </url>
   <url>
     <loc>http://www.vviicc.com/blog/categories/ios/</loc>
+  </url>
+  <url>
+    <loc>http://www.vviicc.com/posts/2/</loc>
   </url>
 </urlset>
