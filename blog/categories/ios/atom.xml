@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ios | Vic笔记]]></title>
   <link href="http://www.vviicc.com/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2016-06-02T11:28:21+08:00</updated>
+  <updated>2016-06-02T13:42:10+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The iOS Knowledge Snippet]]></title>
+    <link href="http://www.vviicc.com/blog/the-ios-knowledge-snippet/"/>
+    <updated>2016-06-02T11:15:50+08:00</updated>
+    <id>http://www.vviicc.com/blog/the-ios-knowledge-snippet</id>
+    <content type="html"><![CDATA[<h3>iOS知识碎片</h3>
+
+<ul>
+<li><p>NSDictionaryOfVariableBindings</p>
+
+<p>  <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/macro/NSDictionaryOfVariableBindings">Creates a dictionary wherein the keys are string representations of the corresponding values’ variable names.</a></p>
+
+<p>  <a href="http://www.devdiv.com/nsdictionaryofvariablebindings_-blog-21666-52426.html">NSDictionaryOfVariableBindings实际上做了什么？</a></p></li>
+<li><p>isEqual &amp; hash</p>
+
+<p>  <a href="https://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html">Implementing Equality and Hashing</a></p>
+
+<p>  <a href="http://www.cnblogs.com/skyming/p/3485605.html">isEqual, isEqualToString, == 的区别</a></p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[[译]Objective C 代码风格规范]]></title>

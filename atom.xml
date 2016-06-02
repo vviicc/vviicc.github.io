@@ -4,7 +4,7 @@
   <title><![CDATA[Vic笔记]]></title>
   <link href="http://www.vviicc.com/atom.xml" rel="self"/>
   <link href="http://www.vviicc.com/"/>
-  <updated>2016-06-02T11:28:21+08:00</updated>
+  <updated>2016-06-02T13:42:10+08:00</updated>
   <id>http://www.vviicc.com/</id>
   <author>
     <name><![CDATA[Vic]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[冷笑话😜]]></title>
+    <link href="http://www.vviicc.com/blog/cold-joke/"/>
+    <updated>2016-06-02T13:15:10+08:00</updated>
+    <id>http://www.vviicc.com/blog/cold-joke</id>
+    <content type="html"><![CDATA[<h3>生活需要调味剂😋</h3>
+
+<ul>
+<li>去一家外企面试，对方要求我朗读一篇英文稿。好歹我也是重点大学的毕业生，轻轻松松就把每个字母读了出来。对方在震惊之余把我赶了出来！我明白，这是嫉妒！</li>
+<li>为什么小龙虾变成了最受欢迎的宵夜，因为吃小龙虾双手油乎乎的，不能玩手机只能专心聊天&hellip;</li>
+<li>医生：X光片显示你的左腿骨折了 病人：那该怎么办呢医生 医生：没事，我已经用美图秀秀给你修好了</li>
+<li>有个和尚贷款买车，银行工作人员说他没有收入证明贷不了。和尚说：出家人不打诳语，你放心，我肯定能还。。。</li>
+<li>了解我的人都知道，根本没人了解我。</li>
+<li>从最开始的1000发家，到现在的几百万，我不是想炫耀什么，我只是想告诉大家&hellip;欢乐斗地主这个东西，主要还是看运气</li>
+<li>当你迷茫的时候，当你看不到光明的时候，当你徘徊在人生的十字街头，不知该何去何从的时候，请一定要记得，别挡着后面人的路</li>
+<li>活了20多年，少不更事的时候做了许多错事，如果时光可以倒流！！！我特么一定做的滴水不漏！！！</li>
+<li>唐僧为什么是高僧，因为他说话很凝练到位。贫僧唐玄奘，自东土大唐而来，要去西天取经！一句话就解答了老外一直要就不出来的四大难题，我是谁？我从哪来？要到哪去？要做什么？</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The iOS Knowledge Snippet]]></title>
@@ -26,6 +48,11 @@
 <p>  <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/macro/NSDictionaryOfVariableBindings">Creates a dictionary wherein the keys are string representations of the corresponding values’ variable names.</a></p>
 
 <p>  <a href="http://www.devdiv.com/nsdictionaryofvariablebindings_-blog-21666-52426.html">NSDictionaryOfVariableBindings实际上做了什么？</a></p></li>
+<li><p>isEqual &amp; hash</p>
+
+<p>  <a href="https://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html">Implementing Equality and Hashing</a></p>
+
+<p>  <a href="http://www.cnblogs.com/skyming/p/3485605.html">isEqual, isEqualToString, == 的区别</a></p></li>
 </ul>
 
 ]]></content>
